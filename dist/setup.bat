@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 chcp 65001 >nul 2>&1
-cd /d "%~dp0"
+cd /d "%~dp0.."
 title ForgeX Setup - Cai Dat Tu Dong
 
 :: =====================================================================
