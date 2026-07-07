@@ -1,0 +1,62 @@
+# Core
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.0.0
+python-multipart>=0.0.9
+requests>=2.31.0
+cryptography>=42.0.0
+google-api-python-client>=2.130.0
+google-auth>=2.29.0
+
+# Database
+aiosqlite>=0.19.0
+
+# Phase 1: Download & Media
+yt-dlp>=2024.0.0
+pydub>=0.25.1
+
+# Phase 2: Subtitle & STT
+faster-whisper>=1.0.0
+whisperx>=3.1.0
+rapidocr_onnxruntime>=1.3.0
+# Optional: googletrans 4.0.0rc1 pins httpx==0.13.3 and conflicts with
+# modern ML/UI dependencies. translator.py falls back to translate.googleapis.com.
+# googletrans==4.0.0rc1
+demucs>=4.0.0  # Vocal separation before STT (includes PyTorch)
+numpy>=1.24.0   # Audio analysis for auto-fallback speech detection
+fonttools>=4.53.0  # Local subtitle font/glyph coverage checks
+
+# Phase 2: Scene Detection
+scenedetect>=0.6.2
+opencv-python>=4.9.0
+
+# Phase 3: Voice & AI
+edge-tts>=6.1.0
+azure-cognitiveservices-speech>=1.36.0
+elevenlabs>=0.2.0
+gtts>=2.5.1
+f5-tts>=1.1.16
+-e vendor/valtec-tts  # Local Valtec Vietnamese TTS provider
+# openvoice>=2.0.0  # Optional: OpenVoice V2 needs manual install + GPU
+pyannote-audio>=4.0.0
+transformers>=4.57.6,<5.0.0
+torch>=2.2.0
+sentencepiece>=0.2.0
+
+# Phase 3: Vision AI
+mediapipe>=0.10.0
+insightface>=0.7.3
+pillow>=10.0.0
+qrcode[pil]>=7.4.2
+
+# Phase 4: Timeline
+# Optional: libopenshot is a native C++ dependency and has no compatible wheel
+# for the tested Windows/Python 3.12 environment. Install it manually only when
+# the OpenShot renderer is explicitly configured; the app falls back to FFmpeg.
+# libopenshot>=0.3.2
+
+# Utilities
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+psutil>=5.9.0
+pywebview>=5.0

@@ -1,0 +1,38 @@
+{
+  "name": "Shorts Dynamic Auto",
+  "description": "YouTube Shorts 9:16 auto-reframe with clean frame and burned subtitles",
+  "preset": "Shorts Auto",
+  "resolution": "1080x1920",
+  "fps": 60,
+  "render": {
+    "auto_reframe": true,
+    "border_size": 6,
+    "border_color": "yellow@0.75"
+  },
+  "intro": {
+    "text": "Movie Recap",
+    "duration": 1.5,
+    "font_size": 62
+  },
+  "outro": {
+    "text": "Subscribe",
+    "duration": 1.5,
+    "font_size": 58
+  },
+  "subtitle": {
+    "burn": true,
+    "font": "Arial",
+    "size": 46,
+    "color": "#FFD700",
+    "stroke": 2,
+    "position": "bottom"
+  },
+  "export": {
+    "resolution": "1080x1920",
+    "fps": 60,
+    "codec": "h264",
+    "bitrate": "10M",
+    "audio_bitrate": "192k",
+    "format": "mp4"
+  }
+}

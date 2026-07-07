@@ -1,0 +1,38 @@
+{
+  "name": "TikTok Dynamic Recap",
+  "description": "Auto-reframe 9:16, border, intro/outro, subtitle burn",
+  "preset": "TikTok Recap",
+  "resolution": "1080x1920",
+  "fps": 30,
+  "render": {
+    "auto_reframe": true,
+    "border_size": 8,
+    "border_color": "white@0.85"
+  },
+  "intro": {
+    "text": "0xForge Recap",
+    "duration": 2.0,
+    "font_size": 64
+  },
+  "outro": {
+    "text": "Follow for more",
+    "duration": 2.0,
+    "font_size": 58
+  },
+  "subtitle": {
+    "burn": true,
+    "font": "Arial",
+    "size": 44,
+    "color": "#FFFFFF",
+    "stroke": 2,
+    "position": "bottom"
+  },
+  "export": {
+    "resolution": "1080x1920",
+    "fps": 30,
+    "codec": "h264",
+    "bitrate": "6M",
+    "audio_bitrate": "160k",
+    "format": "mp4"
+  }
+}

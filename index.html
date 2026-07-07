@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tool Review Master V2.1.1</title>
+  <meta name="description" content="Công cụ xử lý video, lồng tiếng, phụ đề tự động chuyên nghiệp - Full Backend." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
+  <link rel="stylesheet" href="style.css?v=20260609-queue-hidden" />
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- TOP BAR -->
+    <header id="topbar">
+      <div class="topbar-left">
+        <div id="logo">
+          <span class="logo-icon"><i class="ri-film-line"></i></span>
+          <span class="logo-text">Tool Review <strong>Master</strong></span>
+        </div>
+      </div>
+      <div class="topbar-center">
+        <button class="topbar-command" id="btn-command-palette" title="Command palette"><i
+            class="ri-command-line"></i><span>Ctrl K</span></button>
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn sm" id="btn-open-download" title="Tải video"><i class="ri-download-cloud-2-line"></i></button>
+        <button class="icon-btn sm" id="btn-open-settings" title="Settings"><i class="ri-settings-3-line"></i></button>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-mode" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+
+    <div id="main-layout">
+
+      <!-- CONTENT AREA -->
+      <div id="content-area">
+
+        <!-- TOP TWO PANELS ROW -->
+        <div id="top-panels-row">
+
+          <!-- WORK MODE PANEL (Chế Độ Làm Việc - Bước 2) -->
+          <section id="work-mode-panel" class="panel">
+            <div class="panel-header">
+              <span class="step-badge">CHẾ ĐỘ LÀM VIỆC (BƯỚC 2)</span>
+              <button class="info-btn">?</button>
+            </div>
+            <div class="panel-row preset-row">
+              <label class="field-label">Preset:</label>
+              <select class="select-input" id="sel-project-preset" style="width:150px">
+                <option>TikTok Recap</option>
+                <option selected>Movie Review</option>
+                <option>Shorts Auto</option>
+                <option>Reup 9:16</option>
+                <option>Custom</option>
+              </select>
+              <button class="action-btn" id="btn-save-preset"><i class="ri-save-3-line"></i> Lưu</button>
+              <span class="preset-summary" id="preset-summary">1080x1920 · 30fps · Giọng đọc AI · Phụ đề tự động</span>
+            </div>
+            <div class="panel-row">
+              <label class="field-label">Lựa Chọn Chế Độ</label>
+              <div class="row-inline gap8">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="chk-crop-video" />
+                  <span class="chk-box"></span>
+                  <span>Crop Video:</span>
+                </label>
+                <label class="field-label ml8">Vị Trí Crop:</label>
+                <input type="text" class="text-input" id="inp-crop-pos" value="........" style="width:80px" />
+                <button class="action-btn" id="btn-chon-vi-tri">Chọn Vị Trí</button>
+              </div>
+            </div>
+            <div class="panel-row mt6">
+              <div class="row-inline gap8">
+                <select class="select-input" id="sel-work-mode" style="width:110px">
+                  <option>Mặc Định</option>
+                  <option>Tùy Chỉnh</option>
+                </select>
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="chk-resize" />
+                  <span class="chk-box"></span>
+                  <span>Thay Đổi Độ Phân Giải:</span>
+                </label>
+                <input type="number" class="text-input num" id="inp-height" value="720" />
+                <span class="x-sep">x</span>
+                <input type="number" class="text-input num" id="inp-width" value="1280" />
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="chk-keep-ratio" checked />
+                  <span class="chk-box"></span>
+                  <span>Giữ Tỷ Lệ</span>
+                </label>
+              </div>
+            </div>
+            <div class="panel-row mt10">
+              <a href="#" class="link-text" id="link-search-sample">TRA CỨU MẪU</a>
+              <button class="action-btn" id="btn-save-template"
+                style="height:20px;padding:1px 8px;font-size:9px;margin-left:8px"><i class="ri-save-3-line"></i> Lưu
+                Template</button>
+              <button class="action-btn" id="btn-load-template" style="height:20px;padding:1px 8px;font-size:9px"><i
+                  class="ri-folder-open-line"></i> Load Template</button>
+              <a href="#" class="link-text ml-auto" id="link-save-preset">LƯU CÁC THÔNG SỐ</a>
+            </div>
+          </section>
+
+          <!-- LOAD DATA PANEL (Bước 1) -->
+          <section id="load-data-panel" class="panel">
+            <div class="panel-header">
+              <span class="step-badge">LOAD DỮ LIỆU (BƯỚC 1)</span>
+            </div>
+            <div class="panel-row">
+              <label class="field-label" style="white-space:nowrap; width:100px">Path Video:</label>
+              <input type="text" class="text-input flex1" id="inp-video-path"
+                placeholder="Chọn file video của bạn (*.mp4, *.mkv, *.avi...)" />
+              <button class="icon-btn" id="btn-browse-video" title="Chọn Video"><i
+                  class="ri-folder-open-line"></i></button>
+            </div>
+            <div class="panel-row mt6">
+              <label class="field-label" style="white-space:nowrap; width:100px">Đường dẫn Sub:</label>
+              <input type="text" class="text-input flex1" id="inp-srt-path"
+                placeholder="Chọn file phụ đề (*.srt, *.ass) (nếu có)..." />
+              <button class="icon-btn" id="btn-browse-srt" title="Chọn Phụ đề"><i
+                  class="ri-folder-open-line"></i></button>
+              <button class="icon-btn" id="btn-extract-srt" title="Lấy Sub từ Video (Trích xuất/Whisper STT)"
+                style="color: var(--accent); margin-left: 4px;"><i class="ri-magic-line"></i></button>
+              <button class="info-btn" id="btn-info-srt">?</button>
+            </div>
+            <div class="panel-row mt8">
+              <label class="custom-checkbox">
+                <input type="checkbox" id="chk-translate" checked />
+                <span class="chk-box"></span>
+                <span>Dịch Sub Từ:</span>
+              </label>
+              <button class="icon-btn sm" id="btn-translate-settings" title="Cài Đặt"><i
+                  class="ri-settings-4-line"></i></button>
+              <select class="select-input" id="sel-lang-from" style="width:130px">
+                <option value="en">Tiếng Anh</option>
+                <option value="zh">Tiếng Trung</option>
+                <option value="ja">Tiếng Nhật</option>
+                <option value="ko">Tiếng Hàn</option>
+                <option value="vi">Tiếng Việt</option>
+                <option value="es">Tiếng Tây Ban Nha</option>
+                <option value="fr">Tiếng Pháp</option>
+                <option value="de">Tiếng Đức</option>
+                <option value="ru">Tiếng Nga</option>
+                <option value="pt">Tiếng Bồ Đào Nha</option>
+                <option value="ar">Tiếng Ả Rập</option>
+                <option value="it">Tiếng Ý</option>
+                <option value="th">Tiếng Thái</option>
+              </select>
+              <span class="arrow-sep">---&gt;</span>
+              <select class="select-input" id="sel-lang-to" style="width:130px">
+                <option value="vi">Tiếng Việt</option>
+                <option value="en">Tiếng Anh</option>
+                <option value="zh">Tiếng Trung</option>
+                <option value="ja">Tiếng Nhật</option>
+                <option value="ko">Tiếng Hàn</option>
+                <option value="es">Tiếng Tây Ban Nha</option>
+                <option value="fr">Tiếng Pháp</option>
+                <option value="de">Tiếng Đức</option>
+                <option value="ru">Tiếng Nga</option>
+                <option value="pt">Tiếng Bồ Đào Nha</option>
+                <option value="ar">Tiếng Ả Rập</option>
+                <option value="it">Tiếng Ý</option>
+                <option value="th">Tiếng Thái</option>
+              </select>
+              <button class="load-btn" id="btn-load">Load</button>
+            </div>
+            <div class="progress-row mt8">
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="load-progress" style="width:0%"></div>
+              </div>
+              <span class="progress-pct" id="load-pct">0%</span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- MIDDLE ROW: Processing Panels + Video Preview -->
+        <div id="middle-row">
+
+          <!-- PROCESSING PANEL (Bước 3 - Tùy Chọn Thông Số) -->
+          <section id="processing-panel" class="panel flex-col">
+            <div class="panel-header">
+              <span class="step-badge">TÙY CHỌN THÔNG SỐ (BƯỚC 3)</span>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="tab-bar" id="processing-tabs">
+              <button class="tab active" data-target="tab-voice">Giọng đọc</button>
+              <button class="tab" data-target="tab-subtitle">Phụ đề</button>
+              <button class="tab" data-target="tab-music">Nhạc nền</button>
+              <button class="tab" data-target="tab-enhance">Tối ưu</button>
+              <button class="tab" data-target="tab-edit">Chỉnh sửa</button>
+              <button class="tab" data-target="tab-ai">Trợ lý AI</button>
+              <button class="tab" data-target="tab-export">Xuất bản</button>
+            </div>
+
+            <!-- Tab: Voice -->
+            <div class="tab-content active" id="tab-voice">
+              <div class="tab-row">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="chk-auto-voice" checked />
+                  <span class="chk-box"></span>
+                  <span>Giọng đọc tự động</span>
+                </label>
+                <a href="#" class="link-accent" id="link-setup-voice">THIẾT LẬP</a>
+                <label class="field-label ml8">Nhà Cung Cấp:</label>
+                <select class="select-input" id="sel-tts-provider" style="width:150px">
+                  <option>Edge TTS</option>
+                  <option>Google TTS (free)</option>
+                  <option>Valtec TTS</option>
+                  <option>CapCut TTS</option>
+                  <option value="f5">F5-TTS Local</option>
+                  <option>FPT.AI TTS</option>
+                  <option>Azure TTS</option>
+                </select>
+                <button class="info-btn">?</button>
+              </div>
+              <div class="tab-row mt6" id="row-fpt-key" style="display: none;">
+                <label class="field-label" style="color: var(--accent); font-weight: bold;">FPT API Key:</label>
+                <input type="text" class="text-input" id="inp-fpt-key" placeholder="Nhập FPT.AI API Key..."
+                  style="flex:1" />
+              </div>
+              <div class="tab-row mt6">
+                <label class="field-label">Ngôn Ngữ Đọc:</label>
+                <select class="select-input" id="sel-voice-lang" style="width:120px">
+                  <option>Tiếng Việt</option>
+                  <option>Tiếng Anh</option>
+                  <option>Tất Cả</option>
+                </select>
+                <label class="field-label ml12">Giọng đọc:</label>
+                <select class="select-input" id="sel-voice-type" style="width:240px">
+                  <option value="vi-VN-HoaiMyNeural">Hoài Mỹ (Nữ) - vi-VN</option>
+                  <option value="vi-VN-NamMinhNeural">Nam Minh (Nam) - vi-VN</option>
+                  <option value="en-US-EmmaNeural">Emma (Nữ) - en-US</option>
+                  <option value="en-US-BrianNeural">Brian (Nam) - en-US</option>
+                  <option value="en-GB-SoniaNeural">Sonia (Nữ) - en-GB</option>
+                  <option value="en-GB-RyanNeural">Ryan (Nam) - en-GB</option>
+                  <option value="zh-CN-XiaoxiaoNeural">Xiaoxiao (Nữ) - zh-CN</option>
+                  <option value="zh-CN-YunxiNeural">Yunxi (Nam) - zh-CN</option>
+                </select>
+                <button class="icon-btn" id="btn-play-voice" title="Nghe thử"><i class="ri-volume-up-line"></i></button>
+                <audio id="voice-preview-audio" controls preload="none"
+                  style="display:none;height:30px;max-width:220px"></audio>
+              </div>
+              <div class="tab-row mt6">
+                <label class="field-label">Chế Độ:</label>
+                <select class="select-input" id="sel-voice-mode" style="width:130px">
+                  <option>Với Giọng Đọc</option>
+                  <option>Không Giọng Đọc</option>
+                </select>
+                <label class="custom-checkbox ml12">
+                  <input type="checkbox" id="chk-tts-align" checked />
+                  <span class="chk-box"></span>
+                  <span style="color: var(--accent); font-weight: bold;">Khớp khẩu hình (khớp timeline phụ đề)</span>
+                </label>
+              </div>
+              <div class="tab-row mt6">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="chk-keep-bgm" />
+                  <span class="chk-box"></span>
+                  <span>Giữ Âm Thanh Gốc (âm lượng):</span>
+                </label>
+                <input type="number" class="text-input num" id="inp-bgm-vol" value="0.1" step="0.1" min="0" max="1"
+                  style="width:55px" />
+              </div>
+              <div class="panel-divider"></div>
+              <div class="section-label">Giả lập giọng đọc</div>
+              <div class="feature-list">
+                <div class="feat-row" style="grid-column:1/-1"><input type="file" class="text-input"
+                    id="inp-voice-sample" accept="audio/*,video/*" style="flex:1" /></div>
+                <div class="feat-row" style="grid-column:1/-1"><input type="text" class="text-input"
+                    id="inp-f5-clone-name" value="default" placeholder="F5 voice name" style="flex:1" /></div>
+                <div class="feat-row" style="grid-column:1/-1"><input type="text" class="text-input"
+                    id="inp-f5-ref-text" placeholder="Exact words spoken in the sample audio (recommended)"
+                    style="flex:1" /></div>
+                <button class="action-btn" id="btn-voice-upload"><i class="ri-upload-cloud-2-line"></i> Tải lên mẫu
+                  giọng</button>
+                <button class="action-btn" id="btn-voice-train"><i class="ri-user-voice-line"></i> Huấn luyện
+                  giọng</button>
+                <button class="action-btn" id="btn-voice-export-clone"><i class="ri-download-2-line"></i> Xuất giọng
+                  đọc</button>
+                <div class="feat-row" style="grid-column:1/-1;margin-top:6px;display:flex;gap:6px;align-items:center">
+                  <label class="field-label" style="white-space:nowrap">Engine</label>
+                  <select class="select-input" id="sel-clone-engine" style="width:90px">
+                    <option value="f5" selected>F5-TTS</option>
+                    <option value="bark">Bark</option>
+                  </select>
+                  <button class="action-btn" id="btn-voice-clone-oneclick"
+                    style="flex:1;background:var(--accent);color:#fff;font-weight:bold">
+                    <i class="ri-magic-line"></i> 1-Click Clone Review
+                  </button>
+                </div>
+              </div>
+              <div class="section-label">Nhiều người nói</div>
+              <div class="feature-list">
+                <label class="custom-checkbox"><input type="checkbox" id="chk-auto-diarize" /><span
+                    class="chk-box"></span><span class="field-label">Tự động nhận diện người nói</span></label>
+                <button class="action-btn" id="btn-voice-speakers"><i class="ri-team-line"></i> Bản đồ người
+                  nói</button>
+              </div>
+            </div>
+
+            <!-- Tab: Subtitle -->
+            <div class="tab-content" id="tab-subtitle">
+              <div class="subtitle-tree-layout">
+                <div class="tree-nav">
+                  <div class="tree-branch">
+                    <div class="tree-node parent expanded" data-branch="import">
+                      <i class="ri-arrow-down-s-line tree-toggle"></i>
+                      <span>Nhập phụ đề</span>
+                    </div>
+                    <div class="tree-children" id="branch-import">
+                      <div class="tree-node leaf active" data-leaf="sub-src-srt">SRT</div>
+                      <div class="tree-node leaf" data-leaf="sub-src-ass">ASS</div>
+                      <div class="tree-node leaf" data-leaf="sub-src-transcribe">Nhận diện gốc</div>
+                      <div class="tree-node leaf" data-leaf="sub-src-merge">Gộp phụ đề</div>
+                    </div>
+                  </div>
+                  <div class="tree-branch">
+                    <div class="tree-node parent expanded" data-branch="translate">
+                      <i class="ri-arrow-down-s-line tree-toggle"></i>
+                      <span>Dịch thuật</span>
+                    </div>
+                    <div class="tree-children" id="branch-translate">
+                      <div class="tree-node leaf" data-leaf="sub-trans-enable">✓ Enable</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-gpt">GPT</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-gemini">Gemini</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-ai">AI Provider</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-deeplx">DeepLX</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-google">Google</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-seamless">SeamlessM4T</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-nllb">NLLB-200</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-m2m100">M2M100</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-marian">MarianMT</div>
+                      <div class="tree-node leaf" data-leaf="sub-trans-batch">Hàng loạt</div>
+                    </div>
+                  </div>
+                  <div class="tree-branch">
+                    <div class="tree-node parent expanded" data-branch="style">
+                      <i class="ri-arrow-down-s-line tree-toggle"></i>
+                      <span>Định dạng</span>
+                    </div>
+                    <div class="tree-children" id="branch-style">
+                      <div class="tree-node leaf" data-leaf="sub-style-font">Phông chữ</div>
+                      <div class="tree-node leaf" data-leaf="sub-style-color">Màu sắc</div>
+                      <div class="tree-node leaf" data-leaf="sub-style-shadow">Bóng đổ</div>
+                    </div>
+                  </div>
+                  <div class="tree-branch">
+                    <div class="tree-node parent expanded" data-branch="export">
+                      <i class="ri-arrow-down-s-line tree-toggle"></i>
+                      <span>Xuất phụ đề</span>
+                    </div>
+                    <div class="tree-children" id="branch-export">
+                      <div class="tree-node leaf" data-leaf="sub-exp-burn">Gắn cứng</div>
+                      <div class="tree-node leaf" data-leaf="sub-exp-srt">SRT</div>
+                      <div class="tree-node leaf" data-leaf="sub-exp-ass">ASS</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tree-content">
+                  <div class="tree-leaf-content active" id="leaf-sub-src-srt">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked /><span
+                        class="chk-box"></span><span class="field-label">SRT Import</span></label>
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked /><span
+                        class="chk-box"></span><span class="field-label">Auto Detect Encoding</span></label>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-src-ass">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" /><span
+                        class="chk-box"></span><span class="field-label">ASS Import</span></label>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-src-merge">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" /><span
+                        class="chk-box"></span><span class="field-label">Subtitle Merge</span></label>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-src-transcribe">
+                    <label class="feature-item custom-checkbox">
+                      <input type="checkbox" checked id="chk-sub-transcribe-auto" />
+                      <span class="chk-box"></span>
+                      <span class="field-label">Tự động nhận diện phụ đề gốc từ giọng nói video (Whisper STT)</span>
+                    </label>
+                    <div class="feat-row" style="margin-top: 8px;">
+                      <label class="field-label" style="width: 100px;">Ngôn ngữ gốc:</label>
+                      <select class="select-input" id="sel-sub-transcribe-lang" style="width:160px">
+                        <option value="vi">Tiếng Việt (vi)</option>
+                        <option value="en">Tiếng Anh (en)</option>
+                        <option value="zh">Tiếng Trung (zh)</option>
+                        <option value="auto">Tự động phát hiện (auto)</option>
+                      </select>
+                    </div>
+                    <label class="feature-item custom-checkbox" style="margin-top:8px">
+                      <input type="checkbox" id="chk-sub-whisperx" />
+                      <span class="chk-box"></span>
+                      <span class="field-label">WhisperX word alignment</span>
+                    </label>
+                    <label class="feature-item custom-checkbox" style="margin-top:8px">
+                      <input type="checkbox" id="chk-vocal-sep" />
+                      <span class="chk-box"></span>
+                      <span class="field-label">Tách vocal bằng Demucs khi audio có nhạc nền nặng</span>
+                    </label>
+                    <div class="feat-row" style="margin-top: 10px;">
+                      <button class="action-btn" id="btn-sub-transcribe"
+                        style="background: var(--accent); color: white; border: none; padding: 6px 15px;">
+                        <i class="ri-mic-line"></i> Nhận diện ngay
+                      </button>
+                      <button class="action-btn" id="btn-sub-ocr"
+                        style="background:#805ad5;color:white;border:none;padding:6px 15px;margin-left:8px">
+                        <i class="ri-scan-2-line"></i> RapidOCR sub cứng
+                      </button>
+                    </div>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-enable">
+                    <label class="feature-item custom-checkbox">
+                      <input type="checkbox" checked id="chk-translate-enable" />
+                      <span class="chk-box"></span>
+                      <span class="field-label" style="font-weight:600;color:var(--accent)">✓ Dịch phụ đề (bỏ tick nếu
+                        đã có SRT sẵn)</span>
+                    </label>
+                    <div class="feat-row" style="margin-top:8px;align-items:flex-start">
+                      <label class="field-label" style="width:86px">Engine</label>
+                      <select class="select-input" id="sel-pipeline-translate-engine" style="width:260px">
+                        <option value="" selected>Chon engine dich...</option>
+                        <option value="gpt">1. GPT - API - best</option>
+                        <option value="gemini">2. Gemini - API - very good</option>
+                        <option value="ai_provider">3. AI Provider - OpenRouter/NIM/Custom</option>
+                        <option value="deeplx">4. DeepLX - Free/API - good</option>
+                        <option value="google">5. Google Translate - Free - fast</option>
+                        <option value="seamless">6. SeamlessM4T - Free Local - heavy</option>
+                        <option value="nllb">7. NLLB-200 - Free Local - stable</option>
+                        <option value="m2m100">8. M2M100 - Free Local - normal</option>
+                        <option value="marian">9. MarianMT - Free Local - basic</option>
+                      </select>
+                    </div>
+                    <label class="feature-item custom-checkbox" style="margin-top:8px">
+                      <input type="checkbox" checked id="chk-sub-semantic" />
+                      <span class="chk-box"></span>
+                      <span class="field-label">LLM semantic segmentation: break subtitle lines by meaning</span>
+                    </label>
+                    <label class="feature-item custom-checkbox" style="margin-top:8px">
+                      <input type="checkbox" id="chk-rewrite-enable" />
+                      <span class="chk-box"></span>
+                      <span class="field-label" style="font-weight:600;color:var(--accent)">✍️ Viết lại phụ đề thành
+                        lời đọc tự nhiên, dễ nghe hơn</span>
+                    </label>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-gpt">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-gpt" /><span
+                        class="chk-box"></span><span class="field-label">GPT Translation</span></label>
+                    <div class="feat-row"><label class="field-label">Model</label><select class="select-input"
+                        id="sel-sub-gpt-model" style="width:120px">
+                        <option>GPT-4</option>
+                        <option>GPT-3.5</option>
+                      </select></div>
+                    <button class="action-btn" id="btn-sub-trans-gpt"><i class="ri-translate-2"></i> Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-gemini">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-sub-gemini" /><span
+                        class="chk-box"></span><span class="field-label">Gemini Translation</span></label>
+                    <div class="feat-row"><label class="field-label">Model</label><select class="select-input"
+                        id="sel-sub-gemini-model" style="width:150px">
+                        <option>gemini-2.0-flash</option>
+                        <option>gemini-1.5-flash</option>
+                        <option>gemini-1.5-pro</option>
+                      </select></div>
+                    <button class="action-btn" id="btn-sub-trans-gemini"><i class="ri-translate-2"></i>
+                      Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-ai">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-ai-provider" /><span
+                        class="chk-box"></span><span class="field-label">AI Provider (OpenRouter/NVIDIA NIM/Ollama/Custom)</span></label>
+                    <div class="feat-row"><label class="field-label">Model</label><span class="field-label"
+                        id="ai-provider-active-model" style="color:var(--text-muted);font-size:11px">Use Settings > AI Provider</span></div>
+                    <button class="action-btn" id="btn-sub-trans-ai_provider"><i class="ri-translate-2"></i> Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-deeplx">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-deeplx" /><span
+                        class="chk-box"></span><span class="field-label">DeepLX (Free/API, high quality)</span></label>
+                    <div class="feat-row"><label class="field-label">Endpoint</label><input class="text-input"
+                        id="inp-deeplx-url" placeholder="http://127.0.0.1:1188/translate" style="width:240px" /></div>
+                    <button class="action-btn" id="btn-sub-trans-deeplx"><i class="ri-translate-2"></i> Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-google">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-google" /><span
+                        class="chk-box"></span><span class="field-label">Google Translate (Free, unofficial)</span></label>
+                    <div class="feat-row"><label class="field-label">Info</label><span class="field-label"
+                        style="color:var(--text-muted);font-size:11px">No API key, uses public translate endpoint</span></div>
+                    <button class="action-btn" id="btn-sub-trans-google"><i class="ri-translate-2"></i> Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-seamless">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-seamless" /><span
+                        class="chk-box"></span><span class="field-label">SeamlessM4T (Free Local, heavy)</span></label>
+                    <div class="feat-row"><label class="field-label">Model</label><select class="select-input"
+                        id="sel-sub-seamless-model" style="width:220px">
+                        <option>facebook/hf-seamless-m4t-medium</option>
+                        <option>facebook/seamless-m4t-v2-large</option>
+                      </select></div>
+                    <button class="action-btn" id="btn-sub-trans-seamless"><i class="ri-translate-2"></i> Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-nllb">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-nllb" /><span
+                        class="chk-box"></span><span class="field-label">NLLB-200 (Local)</span></label>
+                    <div class="feat-row"><label class="field-label">Model</label><select class="select-input"
+                        id="sel-sub-nllb-model" style="width:180px">
+                        <option>facebook/nllb-200-distilled-600M</option>
+                        <option>facebook/nllb-200-distilled-1.3B</option>
+                      </select></div>
+                    <button class="action-btn" id="btn-sub-trans-nllb"><i class="ri-translate-2"></i> Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-m2m100">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-m2m100" /><span
+                        class="chk-box"></span><span class="field-label">M2M100 (Free Local)</span></label>
+                    <div class="feat-row"><label class="field-label">Model</label><select class="select-input"
+                        id="sel-sub-m2m100-model" style="width:180px">
+                        <option>facebook/m2m100_418M</option>
+                        <option>facebook/m2m100_1.2B</option>
+                      </select></div>
+                    <button class="action-btn" id="btn-sub-trans-m2m100"><i class="ri-translate-2"></i> Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-marian">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked
+                        id="chk-sub-marian" /><span class="chk-box"></span><span class="field-label">MarianMT
+                        (Local)</span></label>
+                    <div class="feat-row"><label class="field-label">Info</label><span class="field-label"
+                        style="color:var(--text-muted);font-size:11px">EN→VI · ZH→VI · nhẹ, chạy CPU</span></div>
+                    <button class="action-btn" id="btn-sub-trans-marian"><i class="ri-translate-2"></i>
+                      Translate</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-trans-batch">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked
+                        id="chk-sub-batch" /><span class="chk-box"></span><span class="field-label">Batch
+                        Translate</span></label>
+                    <button class="action-btn" id="btn-sub-trans-batch"><i class="ri-translate-2"></i> Translate
+                      All</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-style-font">
+                    <div class="feat-row"><label class="field-label">Font</label><select class="select-input"
+                        id="sel-sub-font" style="width:100px">
+                        <option>Arial</option>
+                        <option>Roboto</option>
+                        <option>Tahoma</option>
+                      </select></div>
+                    <div class="feat-row"><label class="field-label">Size</label><input class="text-input num"
+                        id="inp-sub-size" type="number" value="42" /></div>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-style-color">
+                    <div class="feat-row"><label class="field-label">Color</label><input class="color-pick"
+                        id="inp-sub-color" type="color" value="#ffffff" /></div>
+                    <div class="feat-row"><label class="field-label">Stroke</label><input class="text-input num"
+                        id="inp-sub-stroke" type="number" value="2" /></div>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-style-shadow">
+                    <div class="feat-row"><label class="field-label">Shadow</label><select class="select-input"
+                        id="sel-sub-shadow" style="width:80px">
+                        <option>Soft</option>
+                        <option>Hard</option>
+                        <option>Off</option>
+                      </select></div>
+                    <div class="feat-row"><label class="field-label">Bg</label><input class="color-pick" id="inp-sub-bg"
+                        type="color" value="#000000" /></div>
+                    <div class="feat-row"><label class="field-label">Pos</label><select class="select-input"
+                        id="sel-sub-position" style="width:80px">
+                        <option>Bottom</option>
+                        <option>Center</option>
+                        <option>Top</option>
+                      </select></div>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-exp-burn">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-burn" /><span
+                        class="chk-box"></span><span class="field-label">Burn Subtitle</span></label>
+                    <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-sub-dual" /><span
+                        class="chk-box"></span><span class="field-label">Dual Subtitle</span></label>
+                    <button class="action-btn" id="btn-sub-export-burn"><i class="ri-fire-line"></i> Export
+                      Burn</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-exp-srt">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-sub-srt" /><span
+                        class="chk-box"></span><span class="field-label">Export SRT</span></label>
+                    <button class="action-btn" id="btn-sub-export-srt"><i class="ri-download-2-line"></i> Export
+                      SRT</button>
+                  </div>
+                  <div class="tree-leaf-content" id="leaf-sub-exp-ass">
+                    <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-sub-ass" /><span
+                        class="chk-box"></span><span class="field-label">Export ASS</span></label>
+                    <button class="action-btn" id="btn-sub-export-ass"><i class="ri-download-2-line"></i> Export
+                      ASS</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Tab: Music -->
+            <div class="tab-content" id="tab-music">
+              <div class="section-label">Nhạc nền</div>
+              <div class="feature-list">
+                <label class="feature-item custom-checkbox"><input type="checkbox" checked
+                    id="chk-music-auto-add" /><span class="chk-box"></span><span class="field-label">Tự động
+                    thêm</span></label>
+                <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-music-random" /><span
+                    class="chk-box"></span><span class="field-label">Nhạc ngẫu nhiên</span></label>
+                <button class="action-btn" id="btn-music-folder">Thư mục nhạc</button>
+                <button class="action-btn" id="btn-music-playlist">Danh sách phát</button>
+              </div>
+              <div class="section-label">Trộn âm thanh</div>
+              <div class="slider-row"><label class="field-label">Âm lượng nhạc nền</label><input
+                  class="range-input live-range" type="range" value="35" id="slider-music-volume" min="0"
+                  max="100" /><span class="range-val">35%</span></div>
+              <div class="slider-row"><label class="field-label">Âm lượng giọng đọc</label><input
+                  class="range-input live-range" type="range" value="85" id="slider-voice-volume" min="0"
+                  max="100" /><span class="range-val">85%</span></div>
+              <div class="slider-row"><label class="field-label">Âm lượng gốc</label><input
+                  class="range-input live-range" type="range" value="10" id="slider-orig-audio" min="0"
+                  max="100" /><span class="range-val">10%</span></div>
+              <div class="section-label">Hiệu ứng / Xuất âm thanh</div>
+              <div class="feature-list">
+                <label class="feature-item custom-checkbox"><input type="checkbox" checked id="chk-music-duck" /><span
+                    class="chk-box"></span><span class="field-label">Tự động giảm nhạc nền khi nói</span></label>
+                <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-music-fade-in" /><span
+                    class="chk-box"></span><span class="field-label">Nhạc lớn dần (Fade In)</span></label>
+                <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-music-fade-out" /><span
+                    class="chk-box"></span><span class="field-label">Nhạc nhỏ dần (Fade Out)</span></label>
+                <label class="feature-item custom-checkbox"><input type="checkbox" checked
+                    id="chk-music-normalize" /><span class="chk-box"></span><span class="field-label">Chuẩn hóa âm
+                    thanh</span></label>
+                <button class="action-btn" id="btn-music-crossfade">Hiệu ứng chéo (Crossfade)</button>
+                <button class="action-btn" id="btn-music-apply"><i class="ri-check-line"></i> Áp dụng nhạc</button>
+              </div>
+            </div>
+            <!-- Tab: Enhance -->
+            <div class="tab-content" id="tab-enhance">
+              <div class="enhance-scroll">
+                <div class="section-label">Màu sắc</div>
+                <div class="feature-grid-2">
+                  <div class="feat-row"><label class="field-label">LUT</label><select class="select-input"
+                      id="sel-enhance-lut">
+                      <option>Điện ảnh</option>
+                      <option>Phim ấm</option>
+                      <option>Không</option>
+                    </select></div>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-hdr" /><span
+                      class="chk-box"></span><span class="field-label">HDR</span></label>
+                </div>
+                <div class="slider-row"><label class="field-label">Độ sáng</label><input class="range-input live-range"
+                    type="range" value="50" id="slider-enhance-brightness" min="0" max="100" /><span
+                    class="range-val">50</span></div>
+                <div class="slider-row"><label class="field-label">Độ tương phản</label><input
+                    class="range-input live-range" type="range" value="55" id="slider-enhance-contrast" min="0"
+                    max="100" /><span class="range-val">55</span></div>
+                <div class="slider-row"><label class="field-label">Độ bão hòa</label><input
+                    class="range-input live-range" type="range" value="60" id="slider-enhance-saturation" min="0"
+                    max="100" /><span class="range-val">60</span></div>
+                <div class="slider-row"><label class="field-label">Nhiệt độ màu</label><input
+                    class="range-input live-range" type="range" value="48" id="slider-enhance-temperature" min="0"
+                    max="100" /><span class="range-val">48</span></div>
+                <div class="slider-row"><label class="field-label">Tối góc</label><input class="range-input live-range"
+                    type="range" value="12" id="slider-enhance-vignette" min="0" max="100" /><span
+                    class="range-val">12</span></div>
+                <div class="feat-row mt4"><label class="field-label">Phong cách phim</label><select class="select-input"
+                    id="sel-enhance-film-look">
+                    <option>Review phim</option>
+                    <option>Kịch tính</option>
+                    <option>Hành động</option>
+                  </select></div>
+
+                <div class="section-label">Hiệu ứng</div>
+                <div class="feature-list">
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-transition" /><span
+                      class="chk-box"></span><span class="field-label">Chuyển cảnh</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-zoom" /><span
+                      class="chk-box"></span><span class="field-label">Thu phóng</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-motion" /><span
+                      class="chk-box"></span><span class="field-label">Làm mờ chuyển động</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-shake" /><span
+                      class="chk-box"></span><span class="field-label">Rung lắc</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-speed" /><span
+                      class="chk-box"></span><span class="field-label">Tăng giảm tốc độ</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-slow" /><span
+                      class="chk-box"></span><span class="field-label">Quay chậm</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-fast" /><span
+                      class="chk-box"></span><span class="field-label">Tua nhanh</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-particles" /><span
+                      class="chk-box"></span><span class="field-label">Hiệu ứng hạt</span></label>
+                </div>
+
+                <div class="section-label">Nhãn hiệu</div>
+                <div class="feature-list">
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-enhance-watermark" /><span
+                      class="chk-box"></span><span class="field-label">Đóng dấu bản quyền</span></label>
+                  <input class="text-input" id="inp-enhance-watermark-text" value="" placeholder="Text watermark" />
+                  <button class="action-btn" id="btn-branding-logo">Chèn Logo</button>
+                  <button class="action-btn" id="btn-branding-text">Chèn Chữ</button>
+                  <button class="action-btn" id="btn-branding-qr">Chèn mã QR</button>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" checked /><span
+                      class="chk-box"></span><span class="field-label">Nhãn thương hiệu kênh</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" /><span
+                      class="chk-box"></span><span class="field-label">Bản quyền</span></label>
+                </div>
+                <div class="feature-grid-2 mt6">
+                  <div class="feat-row"><label class="field-label">Độ mờ</label><input class="text-input num"
+                      type="number" value="70" id="inp-enhance-opacity" /></div>
+                  <div class="feat-row"><label class="field-label">Vị trí</label><select class="select-input"
+                      id="sel-enhance-brand-pos">
+                      <option>Trên bên phải</option>
+                      <option>Dưới bên phải</option>
+                      <option>Giữa</option>
+                    </select></div>
+                </div>
+                <button class="action-btn" id="btn-enhance-apply" style="margin-top:6px"><i class="ri-check-line"></i>
+                  Áp dụng tối ưu</button>
+              </div>
+            </div>
+            <!-- Tab: Edit -->
+            <div class="tab-content" id="tab-edit">
+              <div class="section-label">Tách phân cảnh bằng AI</div>
+              <div class="scene-detect-box">
+                <label class="feature-item custom-checkbox"><input type="checkbox" checked /><span
+                    class="chk-box"></span><span class="field-label">Tách phân cảnh bằng AI</span></label>
+                <button class="action-btn" id="btn-detect-scenes"><i class="ri-scissors-cut-line"></i> Nhận
+                  diện</button>
+              </div>
+              <div class="scene-list">
+                <div class="scene-row" draggable="true"><span>Cảnh 1</span><strong>00:00-00:23</strong></div>
+                <div class="scene-row" draggable="true"><span>Cảnh 2</span><strong>00:24-00:45</strong></div>
+                <div class="scene-row" draggable="true"><span>Cảnh 3</span><strong>00:46-01:12</strong></div>
+              </div>
+              <div class="feature-list">
+                <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-edit-crop" /><span
+                    class="chk-box"></span><span class="field-label">Cắt</span></label>
+                <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-edit-resize" /><span
+                    class="chk-box"></span><span class="field-label">Đổi cỡ</span></label>
+                <button class="action-btn" id="btn-edit-rotate">Xoay</button>
+                <button class="action-btn" id="btn-edit-flip">Lật</button>
+                <button class="action-btn" id="btn-edit-split">Cắt đoạn</button>
+                <button class="action-btn" id="btn-edit-merge">Ghép đoạn</button>
+                <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-edit-scene-detect" /><span
+                    class="chk-box"></span><span class="field-label">Tách phân cảnh</span></label>
+                <button class="action-btn" id="btn-edit-timeline">Trình chỉnh sửa dòng thời gian</button>
+              </div>
+              <div class="feature-grid-2 mt6">
+                <div class="feat-row"><label class="field-label">Mẫu sẵn</label><select class="select-input">
+                    <option>9:16 Ngắn</option>
+                    <option>16:9 Đầy đủ</option>
+                    <option>1:1 Vuông</option>
+                  </select></div>
+                <div class="feat-row"><label class="field-label">Xoay góc</label><input class="text-input num"
+                    type="number" value="0" id="inp-edit-rotate" min="0" max="270" step="90" /></div>
+              </div>
+              <div class="section-label">Xem thử trước khi render</div>
+              <div class="edit-preview-controls">
+                <div class="slider-row"><label class="field-label">Tốc độ</label><input
+                    class="range-input edit-preview-control" type="range" value="100" id="slider-edit-speed" min="25"
+                    max="400" step="5" /><span class="range-val" id="val-edit-speed">1.00x</span></div>
+                <div class="slider-row"><label class="field-label">Độ sáng</label><input
+                    class="range-input edit-preview-control" type="range" value="100" id="slider-edit-brightness" min="20"
+                    max="180" step="1" /><span class="range-val" id="val-edit-brightness">100%</span></div>
+                <div class="slider-row"><label class="field-label">Tương phản</label><input
+                    class="range-input edit-preview-control" type="range" value="100" id="slider-edit-contrast" min="20"
+                    max="200" step="1" /><span class="range-val" id="val-edit-contrast">100%</span></div>
+                <div class="slider-row"><label class="field-label">Bão hòa</label><input
+                    class="range-input edit-preview-control" type="range" value="100" id="slider-edit-saturation" min="0"
+                    max="200" step="1" /><span class="range-val" id="val-edit-saturation">100%</span></div>
+                <div class="slider-row"><label class="field-label">Âm lượng</label><input
+                    class="range-input edit-preview-control" type="range" value="100" id="slider-edit-volume" min="0"
+                    max="200" step="1" /><span class="range-val" id="val-edit-volume">100%</span></div>
+                <div class="feature-grid-2 mt6">
+                  <div class="feat-row"><label class="field-label">Xoay preview</label><select
+                      class="select-input edit-preview-control" id="sel-edit-rotate">
+                      <option value="0">0°</option>
+                      <option value="90">90°</option>
+                      <option value="180">180°</option>
+                      <option value="270">270°</option>
+                    </select></div>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-edit-flip-h"
+                      class="edit-preview-control" /><span class="chk-box"></span><span class="field-label">Lật ngang</span></label>
+                  <label class="feature-item custom-checkbox"><input type="checkbox" id="chk-edit-flip-v"
+                      class="edit-preview-control" /><span class="chk-box"></span><span class="field-label">Lật dọc</span></label>
+                </div>
+                <div class="feature-grid-2 mt6">
+                  <button class="action-btn" id="btn-edit-preview-reset"><i class="ri-restart-line"></i> Reset preview</button>
+                  <button class="action-btn" id="btn-edit-adjust-apply"><i class="ri-check-line"></i> Áp dụng render</button>
+                </div>
+                <div class="placeholder-text" id="edit-preview-note" style="padding:2px 4px">Các chỉnh sửa đang hiển thị trong khung preview, file gốc chưa bị thay đổi.</div>
+              </div>
+            </div>
+
+            <!-- Tab: AI -->
+            <div class="tab-content" id="tab-ai">
+              <div class="section-label">Tách phân cảnh</div>
+              <div class="scene-detect-box">
+                <label class="custom-checkbox"><input type="checkbox" checked /><span class="chk-box"></span><span
+                    class="field-label">Tách phân cảnh bằng AI</span></label>
+                <div class="feat-row"><label class="field-label">Ngưỡng</label><input class="text-input num"
+                    type="number" value="27" id="inp-ai-threshold" /></div>
+                <button class="action-btn" id="btn-ai-detect-scenes"><i class="ri-scissors-cut-line"></i> Nhận
+                  diện</button>
+              </div>
+              <div class="section-label">Tóm tắt tự động</div>
+              <div class="feature-list">
+                <textarea class="text-input" id="inp-ai-summary" placeholder="Dán văn bản bản dịch/kịch bản tại đây..."
+                  style="width:100%;height:40px;resize:vertical"></textarea>
+                <div class="feat-row" style="grid-column:1/-1"><label class="field-label">Mô hình</label><select
+                    class="select-input" id="sel-ai-summary-model" style="width:120px">
+                    <option>BART</option>
+                    <option>GPT</option>
+                  </select></div>
+                <button class="action-btn" id="btn-ai-summary"><i class="ri-file-text-line"></i> Tóm tắt</button>
+                <div id="ai-summary-result" class="placeholder-text" style="padding:2px 4px;grid-column:1/-1">Nội dung
+                  tóm tắt sẽ xuất hiện ở đây</div>
+              </div>
+              <div class="section-label">Review phim tự động</div>
+              <div class="feature-list">
+                <button class="action-btn" id="btn-ai-recap"><i class="ri-film-line"></i> Tạo bài review</button>
+                <div id="ai-recap-result" class="placeholder-text" style="padding:2px 4px;grid-column:1/-1">Bài review
+                  sẽ xuất hiện ở đây</div>
+              </div>
+              <div class="section-label">Nhận diện nhân vật</div>
+              <div class="feature-list">
+                <button class="action-btn" id="btn-ai-characters"><i class="ri-user-smile-line"></i> Tìm nhân
+                  vật</button>
+                <div id="ai-characters-result" class="placeholder-text" style="padding:2px 4px;grid-column:1/-1">Nhân
+                  vật sẽ xuất hiện ở đây</div>
+              </div>
+              <div class="section-label">Nhận diện người nói</div>
+              <div class="feature-list">
+                <button class="action-btn" id="btn-ai-speakers"><i class="ri-voiceprint-line"></i> Tìm người
+                  nói</button>
+                <div id="ai-speakers-result" class="placeholder-text" style="padding:2px 4px;grid-column:1/-1">Người nói
+                  sẽ xuất hiện ở đây</div>
+              </div>
+              <div class="section-label">Ảnh bìa / Tiêu đề / Hashtag</div>
+              <div class="feature-grid-2">
+                <button class="action-btn" id="btn-ai-title"><i class="ri-font-size"></i> Tiêu đề</button>
+                <button class="action-btn" id="btn-ai-hashtag"><i class="ri-hashtag-line"></i> Hashtag</button>
+                <button class="action-btn" id="btn-ai-prompt"><i class="ri-bubble-chart-line"></i> Câu lệnh</button>
+              </div>
+              <div class="section-label">Thư viện câu lệnh gợi ý</div>
+              <div id="prompt-library" style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+                <button class="action-btn prompt-btn"
+                  data-prompt="Viết một bài review phim hấp dẫn, tập trung vào cốt truyện và diễn xuất"
+                  style="font-size:9px;text-transform:none">Review phim</button>
+                <button class="action-btn prompt-btn"
+                  data-prompt="Tóm tắt nội dung video trong 3-4 câu, giọng văn cuốn hút"
+                  style="font-size:9px;text-transform:none">Tóm tắt video</button>
+                <button class="action-btn prompt-btn"
+                  data-prompt="So sánh bộ phim này với các phim cùng thể loại, nêu điểm mạnh yếu"
+                  style="font-size:9px;text-transform:none">So sánh phim</button>
+                <button class="action-btn prompt-btn"
+                  data-prompt="Phân tích tâm lý nhân vật chính, động cơ và sự phát triển xuyên suốt phim"
+                  style="font-size:9px;text-transform:none">Phân tích nhân vật</button>
+                <button class="action-btn prompt-btn"
+                  data-prompt="Đưa ra các chủ đề thảo luận sau khi xem phim, phù hợp cho comment và bình luận"
+                  style="font-size:9px;text-transform:none">Chủ đề thảo luận</button>
+                <button class="action-btn prompt-btn"
+                  data-prompt="Viết mô tả YouTube hấp dẫn cho video review phim, bao gồm hashtag và timestamp"
+                  style="font-size:9px;text-transform:none">Mô tả YouTube</button>
+              </div>
+            </div>
+
+            <!-- Tab: Export -->
+            <div class="tab-content" id="tab-export">
+              <div class="section-label">Kết xuất</div>
+              <div class="export-grid">
+                <div class="feat-row"><label class="field-label">Định dạng</label><select class="select-input"
+                    id="sel-export-format">
+                    <option>MP4</option>
+                    <option>MKV</option>
+                    <option>MOV</option>
+                    <option>AVI</option>
+                  </select></div>
+                <div class="feat-row"><label class="field-label">Mã hóa (Codec)</label><select class="select-input"
+                    id="sel-export-codec">
+                    <option>H264</option>
+                    <option>H265</option>
+                    <option>AV1</option>
+                  </select></div>
+                <div class="feat-row"><label class="field-label">Bitrate</label><select class="select-input"
+                    id="sel-export-bitrate">
+                    <option>4M</option>
+                    <option selected>8M</option>
+                    <option>16M</option>
+                    <option>Tự động</option>
+                  </select></div>
+                <div class="feat-row"><label class="field-label">FPS</label><select class="select-input"
+                    id="sel-export-fps">
+                    <option>24</option>
+                    <option selected>30</option>
+                    <option>60</option>
+                  </select></div>
+                <div class="feat-row"><label class="field-label">GPU</label><select class="select-input"
+                    id="sel-export-gpu">
+                    <option>CPU</option>
+                    <option>NVENC</option>
+                    <option>AMD</option>
+                  </select></div>
+              </div>
+              <button class="action-btn" id="btn-export-render" style="margin-top:4px"><i class="ri-movie-2-line"></i>
+                Xuất Video</button>
+              <button class="action-btn" id="btn-export-audio"><i class="ri-volume-up-line"></i> Xuất Âm Thanh</button>
+              <div class="section-label">Hàng chờ</div>
+              <div class="feat-row"><label class="field-label">Độ ưu tiên</label><select class="select-input"
+                  id="sel-export-priority" style="width:100px">
+                  <option>Bình thường</option>
+                  <option>Cao</option>
+                  <option>Thấp</option>
+                </select></div>
+              <button class="action-btn" id="btn-export-queue"><i class="ri-list-check-3"></i> Thêm vào Hàng
+                chờ</button>
+              <div class="section-label">Mẫu thiết lập</div>
+              <div class="feature-list">
+                <select class="select-input" id="sel-export-preset" style="width:100%">
+                  <option>TikTok Recap</option>
+                  <option selected>Movie Review</option>
+                  <option>Shorts Auto</option>
+                  <option>Reup 9:16</option>
+                  <option>Custom</option>
+                </select>
+                <button class="action-btn" id="btn-export-save-preset"><i class="ri-save-3-line"></i> Lưu
+                  Preset</button>
+                <button class="action-btn" id="btn-export-load-preset"><i class="ri-folder-open-line"></i> Tải
+                  Preset</button>
+              </div>
+              <div class="section-label">Đăng tải</div>
+              <div class="feature-list">
+                <button class="action-btn" id="btn-publish-youtube"><i class="ri-youtube-line"></i> YouTube</button>
+                <button class="action-btn" id="btn-publish-tiktok"><i class="ri-tiktok-line"></i> TikTok</button>
+                <button class="action-btn" id="btn-publish-facebook"><i class="ri-facebook-line"></i> Facebook</button>
+                <button class="action-btn" id="btn-publish-history"
+                  style="background:#6366f1;color:#fff;border:none;margin-top:4px"><i class="ri-history-line"></i> Lịch
+                  sử</button>
+              </div>
+              <div class="panel-row mt4" id="publish-inputs" style="display:none;gap:4px">
+                <input type="text" class="text-input flex1" id="inp-publish-title" placeholder="Tiêu đề video..."
+                  style="height:22px;font-size:10px" />
+                <input type="text" class="text-input flex1" id="inp-publish-desc" placeholder="Mô tả video..."
+                  style="height:22px;font-size:10px" />
+                <button class="action-btn" id="btn-publish-confirm"
+                  style="height:22px;padding:2px 8px;font-size:9px">Đăng tải</button>
+              </div>
+            </div>
+
+            <!-- Output File + GPU -->
+            <div class="panel-divider"></div>
+            <div class="panel-row mt4">
+              <label class="field-label" style="white-space:nowrap">File Lưu Kết Quả:</label>
+              <input type="text" class="text-input flex1" id="inp-output-path"
+                placeholder="Đường dẫn xuất video (mặc định: data/exports)" />
+              <button class="icon-btn" id="btn-browse-output" title="Chọn thư mục"><i
+                  class="ri-folder-open-line"></i></button>
+            </div>
+            <div class="panel-row mt6">
+              <label class="field-label">Chọn Cấu Hình:</label>
+              <label class="radio-label"><input type="radio" name="gpu" value="auto" id="radio-auto" checked /> <span>TỰ
+                  ĐỘNG</span></label>
+              <label class="radio-label ml8"><input type="radio" name="gpu" value="nvidia" id="radio-nvidia" />
+                <span>GPU (NVIDIA)</span></label>
+              <label class="radio-label ml8"><input type="radio" name="gpu" value="amd" id="radio-amd" /> <span>GPU
+                  (AMD)</span></label>
+            </div>
+            <div class="panel-row mt4">
+              <span class="warning-text">Nếu máy bạn sử dụng GPU, hãy nâng cấp Driver GPU lên phiên bản mới nhất!</span>
+            </div>
+            <div class="panel-row mt8 align-center">
+              <button class="info-btn" id="btn-help-execute">?</button>
+              <span class="field-label" id="remaining-time">00:00:00</span>
+              <div class="execute-btn-wrapper">
+                <button class="action-btn" id="btn-execute" type="button">Thực hiện</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- VIDEO PREVIEW (Bước 4) -->
+          <section id="video-preview" class="panel">
+            <div class="panel-header">
+              <span class="step-badge">VIDEO GỐC (BƯỚC 4)</span>
+            </div>
+            <div class="preview-container" id="preview-container">
+              <div class="preview-inspector">
+                <div class="preview-stat"><span>Ratio</span><strong id="preview-ratio">16:9</strong></div>
+                <div class="preview-stat"><span>FPS</span><strong id="preview-fps">30</strong></div>
+                <div class="preview-stat"><span>Sub</span><strong id="preview-sub-state">Auto</strong></div>
+                <div class="preview-stat"><span>Voice</span><strong id="preview-voice-state">Edge</strong></div>
+              </div>
+              <div class="preview-area">
+                <div class="preview-canvas" id="preview-canvas">
+                  <video id="video-player" style="width:100%;height:100%;object-fit:contain;background:#000"
+                    controls></video>
+                  <div class="no-video-msg" id="no-video-msg">Chưa có video</div>
+                  <div class="sub-box-overlay" id="sub-box-overlay" style="display:none">
+                    <div class="sub-box-inner">
+                      <div class="sub-box-label">Vùng phụ đề</div>
+                    </div>
+                    <div class="sub-box-handle sub-box-nw"></div>
+                    <div class="sub-box-handle sub-box-ne"></div>
+                    <div class="sub-box-handle sub-box-sw"></div>
+                    <div class="sub-box-handle sub-box-se"></div>
+                  </div>
+                  <!-- Subtitle Region Controls -->
+                  <div class="sub-region-controls" id="sub-region-controls" style="display:none">
+                    <div class="sub-region-row">
+                      <span class="sub-region-title"><i class="ri-layout-bottom-line"></i> Vùng phụ đề</span>
+                      <select class="select-input" id="sel-sub-alignment" style="width:90px;height:20px;font-size:10px"
+                        title="Căn chỉnh">
+                        <option value="bottom-center">Dưới giữa</option>
+                        <option value="top-center">Trên giữa</option>
+                        <option value="center">Giữa</option>
+                        <option value="bottom-left">Dưới trái</option>
+                        <option value="bottom-right">Dưới phải</option>
+                        <option value="top-left">Trên trái</option>
+                        <option value="top-right">Trên phải</option>
+                        <option value="custom">Tùy chỉnh</option>
+                      </select>
+                      <button class="action-btn" id="btn-sub-region-reset"
+                        style="height:20px;padding:1px 6px;font-size:9px;text-transform:none;display:inline-flex;align-items:center;justify-content:center"
+                        title="Đặt lại mặc định"><i class="ri-restart-line"></i></button>
+                    </div>
+                    <div class="sub-region-row">
+                      <label class="sub-region-lbl">X:</label>
+                      <input type="number" class="text-input sub-region-inp" id="inp-sub-x" value="10" min="0" max="100"
+                        step="1" title="Vị trí ngang (%)" />
+                      <span class="sub-region-unit">%</span>
+                      <label class="sub-region-lbl">Y:</label>
+                      <input type="number" class="text-input sub-region-inp" id="inp-sub-y" value="78" min="0" max="100"
+                        step="1" title="Vị trí dọc (%)" />
+                      <span class="sub-region-unit">%</span>
+                      <label class="sub-region-lbl">W:</label>
+                      <input type="number" class="text-input sub-region-inp" id="inp-sub-w" value="80" min="5" max="100"
+                        step="1" title="Chiều rộng (%)" />
+                      <span class="sub-region-unit">%</span>
+                      <label class="sub-region-lbl">H:</label>
+                      <input type="number" class="text-input sub-region-inp" id="inp-sub-h" value="15" min="5" max="100"
+                        step="1" title="Chiều cao (%)" />
+                      <span class="sub-region-unit">%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="preview-sidebar">
+                  <button class="preview-tool" id="btn-preview-crop" title="Cắt hình"><i
+                      class="ri-crop-line"></i></button>
+                  <button class="preview-tool" id="btn-preview-image" title="Ảnh"><i class="ri-image-line"></i></button>
+                  <button class="preview-tool" id="btn-preview-gallery" title="Gallery"><i
+                      class="ri-gallery-line"></i></button>
+                  <button class="preview-tool" id="btn-preview-text" title="Chèn chữ"><i
+                      class="ri-font-size"></i></button>
+                  <button class="preview-tool" id="btn-preview-sub-box" title="Vùng phụ đề"><i
+                      class="ri-crop-2-line"></i></button>
+                  <button class="preview-tool" id="btn-preview-sub-blur" title="Làm mờ phụ đề gốc"><i
+                      class="ri-blur-off-line"></i></button>
+                </div>
+              </div>
+              <div class="multi-track-timeline" id="scene-timeline">
+                <div class="timeline-ruler">
+                  <span>00:00</span><span>00:23</span><span>00:45</span><span>01:12</span>
+                </div>
+                <div class="tracks-container">
+                  <div class="playhead"></div>
+                  <div class="track-row">
+                    <div class="track-label"><i class="ri-film-line"></i> Video</div>
+                    <div class="track-lane">
+                      <div class="track-clip" style="width:32%; left:0%">Cảnh 1</div>
+                      <div class="track-clip" style="width:28%; left:32%">Cảnh 2</div>
+                      <div class="track-clip" style="width:40%; left:60%">Cảnh 3</div>
+                    </div>
+                  </div>
+                  <div class="track-row">
+                    <div class="track-label"><i class="ri-closed-captioning-line"></i> Phụ đề</div>
+                    <div class="track-lane"><span class="track-lane-empty">—</span></div>
+                  </div>
+                  <div class="track-row">
+                    <div class="track-label"><i class="ri-mic-line"></i> Thoại</div>
+                    <div class="track-lane"><span class="track-lane-empty">—</span></div>
+                  </div>
+                  <div class="track-row">
+                    <div class="track-label"><i class="ri-music-2-line"></i> Nhạc nền</div>
+                    <div class="track-lane"><span class="track-lane-empty">—</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- TASK QUEUE + RESULT TABLE -->
+        <section id="task-queue-section" class="panel">
+          <div class="queue-toolbar">
+            <div>
+              <span class="section-label inline-label">Hàng chờ render</span>
+              <small id="queue-health-text">Chưa có task đang chạy</small>
+            </div>
+            <div class="queue-stats">
+              <span><strong id="queue-running-total">0</strong> chạy</span>
+              <span><strong id="queue-completed-total">0</strong> xong</span>
+              <span><strong id="queue-failed-total">0</strong> lỗi</span>
+            </div>
+          </div>
+          <div id="batch-manager">
+            <div class="batch-left">
+              <span class="section-label inline-label">Hàng chờ</span>
+              <div class="queue-list"></div>
+            </div>
+            <div class="batch-actions">
+              <button class="action-btn" id="btn-retry-failed"><i class="ri-refresh-line"></i> Thử lại tệp lỗi</button>
+              <button class="action-btn" id="btn-pause-queue"><i class="ri-pause-line"></i> Tạm dừng tất cả</button>
+              <button class="action-btn" id="btn-resume-queue"><i class="ri-play-line"></i> Tiếp tục tất cả</button>
+              <button class="action-btn" id="btn-open-output-folder"><i class="ri-folder-open-line"></i> Mở folder kết quả</button>
+              <button class="action-btn" id="btn-log-queue" style="background:#2563eb;color:#ffffff;border:none"><i
+                  class="ri-file-list-3-line"></i> Xem Log</button>
+              <button class="action-btn" id="btn-clear-queue" style="background:#ef4444;color:#ffffff;border:none"><i
+                  class="ri-delete-bin-line"></i> Xóa hàng chờ</button>
+            </div>
+            <div class="api-usage">
+              <span class="api-title">Thống kê sử dụng API</span>
+              <span>Tokens GPT <strong class="api-stat" data-stat="tokens">2.1M</strong></span>
+              <span>Giọng đọc TTS <strong class="api-stat" data-stat="tts_seconds">183 mins</strong></span>
+              <span>Chi phí <strong class="api-stat" data-stat="cost">$4.21</strong></span>
+            </div>
+          </div>
+          <div class="result-table-header">
+            <div class="col-hdr" style="width:110px">Input</div>
+            <div class="col-hdr" style="width:130px">Output</div>
+            <div class="col-hdr" style="width:100px">Tiến Trình</div>
+            <div class="col-hdr" style="width:50px">STT</div>
+            <div class="col-hdr" style="width:100px">Time</div>
+            <div class="col-hdr flex2"
+              style="display: flex; gap: 0; padding: 6px 0; text-align: left; font-size: 10.5px;">
+              <div
+                style="flex: 1; padding-right: 8px; border-right: 1px solid rgba(255,255,255,0.08); font-weight: 600;">
+                Sub Gốc</div>
+              <div style="flex: 1; padding-left: 8px; font-weight: 600;">Sub Dịch</div>
+            </div>
+          </div>
+          <div class="result-table-body" id="result-table-body">
+            <!-- rows injected by JS -->
+          </div>
+          <div class="progress-accent-bar">
+            <div class="accent-fill" id="queue-accent-fill"></div>
+          </div>
+        </section>
+
+      </div><!-- /content-area -->
+    </div><!-- /main-layout -->
+
+    <!-- STATUS BAR -->
+    <footer id="status-bar">
+      <span class="status-credit">Tool Review Master - Zalo: 0984 165 928</span>
+    </footer>
+
+  </div><!-- /app -->
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="download-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="ri-download-cloud-2-line"></i> Tải Video</h3>
+        <button class="icon-btn close-modal"><i class="ri-close-line"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="panel-row">
+          <label class="field-label">Đường dẫn (URL):</label>
+          <input type="text" class="text-input flex1" id="inp-download-url"
+            placeholder="Nhập link YouTube, TikTok, Facebook..." />
+        </div>
+        <div class="feature-grid-2 mt6">
+          <div class="feat-row"><label class="field-label">Chất lượng</label><select class="select-input"
+              id="sel-download-quality">
+              <option>Tốt nhất</option>
+              <option>1080p</option>
+              <option>720p</option>
+              <option>audio</option>
+            </select></div>
+          <div class="feat-row"><label class="field-label">Proxy</label><input type="text" class="text-input"
+              id="inp-download-proxy" placeholder="http://ip:port" /></div>
+        </div>
+        <div class="panel-row mt8" style="justify-content: flex-end;">
+          <button class="action-btn" id="btn-start-download"><i class="ri-download-line"></i> Bắt đầu tải</button>
+        </div>
+        <div class="progress-row mt8" id="download-progress-container" style="display:none">
+          <div class="progress-bar-track" style="flex:1">
+            <div class="progress-bar-fill" id="download-progress" style="width:0%"></div>
+          </div>
+          <span class="progress-pct" id="download-pct">0%</span>
+        </div>
+        <div class="panel-row mt4">
+          <label class="field-label" style="width:90px">Lưu vào:</label>
+          <input type="text" class="text-input flex1" id="inp-download-output" placeholder="Mặc định: data/downloads" />
+          <button class="icon-btn" id="btn-browse-download-output" title="Chọn thư mục"><i
+              class="ri-folder-open-line"></i></button>
+        </div>
+        <div class="panel-row mt4" id="download-output-row" style="display:none">
+          <label class="field-label" style="width:90px">File tải về:</label>
+          <input type="text" class="text-input flex1" id="inp-downloaded-path" readonly />
+        </div>
+        <div class="panel-divider"></div>
+        <div class="section-label" style="margin-top:4px">Danh sách liên kết (mỗi dòng một URL)</div>
+        <textarea class="text-input" id="inp-batch-urls"
+          placeholder="https://youtube.com/watch?v=...&#10;https://tiktok.com/@...&#10;https://facebook.com/..."
+          style="width:100%;height:50px;resize:vertical;font-size:10px;font-family:var(--font-mono)"></textarea>
+        <div class="panel-row mt4" style="justify-content: flex-end;">
+          <button class="action-btn" id="btn-batch-download"><i class="ri-play-list-line"></i> Tải hàng loạt</button>
+        </div>
+        <div class="panel-divider"></div>
+        <div class="section-label" style="margin-top:4px">Lịch sử Download</div>
+        <div class="panel-row" style="margin-bottom:4px">
+          <button class="action-btn" id="btn-dl-history-refresh" style="height:22px;padding:1px 8px;font-size:9px"><i
+              class="ri-refresh-line"></i> Làm mới</button>
+        </div>
+        <div id="download-history-list" style="max-height:120px;overflow-y:auto;font-size:10px">
+          <div class="log-placeholder">Chưa có download nào.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="ri-settings-3-line"></i> Cấu hình hệ thống</h3>
+        <button class="icon-btn close-modal"><i class="ri-close-line"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="section-label">Khóa API Key</div>
+        <div class="panel-row"><label class="field-label" style="width:100px">OpenAI API:</label><input type="password"
+            class="text-input flex1" id="inp-set-openai" placeholder="sk-..." /></div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">ElevenLabs:</label><input
+            type="password" class="text-input flex1" id="inp-set-eleven" placeholder="..." /></div>
+        <div class="section-label mt8">Hệ thống</div>
+        <div class="section-label mt8">AI Provider</div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">Provider:</label><select
+            class="select-input flex1" id="sel-ai-provider">
+            <option value="openrouter">OpenRouter</option>
+            <option value="openai">OpenAI</option>
+            <option value="gemini">Gemini</option>
+            <option value="nvidia">NVIDIA NIM</option>
+            <option value="ollama">Ollama</option>
+            <option value="custom">Custom OpenAI API</option>
+          </select></div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">API Key:</label><input
+            type="password" class="text-input flex1" id="inp-ai-api-key" placeholder="sk-or-v1-..." /></div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">Base URL:</label><input
+            type="text" class="text-input flex1" id="inp-ai-base-url" placeholder="https://openrouter.ai/api/v1" /></div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">Model:</label><input
+            type="text" class="text-input flex1" id="inp-ai-model" list="ai-model-presets"
+            placeholder="google/gemma-4-31b" />
+          <datalist id="ai-model-presets">
+            <option value="google/gemma-4-31b"></option>
+            <option value="google/gemma-4-26b-a4b"></option>
+            <option value="qwen/qwen3-next-80b-a3b"></option>
+            <option value="qwen/qwen3-coder-480b-a35b"></option>
+            <option value="meta-llama/llama-3.3-70b-instruct"></option>
+            <option value="openai/gpt-oss-120b"></option>
+            <option value="openai/gpt-oss-20b"></option>
+            <option value="nvidia/nemotron-3-super"></option>
+            <option value="nvidia/nemotron-3-nano-30b-a3b"></option>
+          </datalist>
+        </div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">Temperature:</label><input
+            type="number" class="text-input" id="inp-ai-temperature" value="0.2" min="0" max="2" step="0.1"
+            style="width:80px" /><label class="field-label ml12">Max Tokens:</label><input type="number"
+            class="text-input" id="inp-ai-max-tokens" value="4096" min="128" step="128" style="width:100px" /></div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">Fallback:</label><input
+            type="text" class="text-input flex1" id="inp-ai-fallback"
+            placeholder="openai/gpt-oss-120b, facebook/nllb-200-distilled-1.3B" /></div>
+        <div class="panel-row mt4" style="justify-content:flex-end;gap:8px">
+          <span class="field-label flex1" id="ai-provider-test-status" style="color:var(--text-muted)">Not tested</span>
+          <button class="action-btn" id="btn-ai-provider-test"><i class="ri-pulse-line"></i> Test Model</button>
+        </div>
+        <div class="panel-row"><label class="field-label" style="width:100px">FFmpeg Path:</label><input type="text"
+            class="text-input flex1" id="inp-set-ffmpeg" value="ffmpeg" /></div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">Proxy Mặc Định:</label><input
+            type="text" class="text-input flex1" id="inp-set-proxy" placeholder="http://..." /></div>
+        <div class="section-label mt8">Quản lý Cookie</div>
+        <div class="panel-row"><label class="field-label" style="width:100px">Cookie File:</label><input type="text"
+            class="text-input flex1" id="inp-set-cookie" placeholder="path/to/cookies.txt" /></div>
+        <div class="panel-row mt4"><label class="field-label" style="width:100px">YouTube Cookie:</label><input
+            type="text" class="text-input flex1" id="inp-set-yt-cookie" placeholder="path/to/youtube_cookies.txt" />
+        </div>
+
+        <div class="section-label mt8">Cookie AI Chạy Ẩn (ChatGPT / Gemini)</div>
+        <div class="panel-row" style="align-items: flex-start; margin-top: 4px;">
+          <label class="field-label" style="width:100px; padding-top: 4px;">ChatGPT Cookie:</label>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+            <textarea class="text-input" id="inp-set-chatgpt-cookie"
+              placeholder='Dán JSON cookie của ChatGPT ở đây hoặc nhấn nút tự động lấy...'
+              style="width:100%; height:48px; resize:vertical; font-size:10px; font-family:var(--font-mono); padding: 4px; box-sizing: border-box; line-height: 1.2;"></textarea>
+            <div class="row-inline" style="gap: 6px; margin-top: 2px;">
+              <button class="action-btn" id="btn-grab-chatgpt-chrome" title="Tự động lấy cookie ChatGPT từ Chrome"
+                style="height: 20px; padding: 0 6px; font-size: 10px; text-transform: none;"><i
+                  class="ri-chrome-line"></i> Lấy từ Chrome</button>
+              <button class="action-btn" id="btn-grab-chatgpt-edge" title="Tự động lấy cookie ChatGPT từ Edge"
+                style="height: 20px; padding: 0 6px; font-size: 10px; text-transform: none;"><i
+                  class="ri-edge-line"></i> Lấy từ Edge</button>
+              <button class="action-btn" id="btn-check-chatgpt-cookie"
+                style="height: 20px; padding: 0 6px; font-size: 10px; text-transform: none; background:#1d4ed8; color:#fff; border:none;"><i
+                  class="ri-pulse-line"></i> Check Live/Die</button>
+              <span id="chatgpt-cookie-status" style="font-size:11px; font-weight:bold; color:var(--text-muted)">Chưa
+                check</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel-row" style="align-items: flex-start; margin-top: 8px;">
+          <label class="field-label" style="width:100px; padding-top: 4px;">Gemini Cookie:</label>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+            <textarea class="text-input" id="inp-set-gemini-cookie"
+              placeholder='Dán JSON cookie của Gemini ở đây hoặc nhấn nút tự động lấy...'
+              style="width:100%; height:48px; resize:vertical; font-size:10px; font-family:var(--font-mono); padding: 4px; box-sizing: border-box; line-height: 1.2;"></textarea>
+            <div class="row-inline" style="gap: 6px; margin-top: 2px;">
+              <button class="action-btn" id="btn-grab-gemini-chrome" title="Tự động lấy cookie Gemini từ Chrome"
+                style="height: 20px; padding: 0 6px; font-size: 10px; text-transform: none;"><i
+                  class="ri-chrome-line"></i> Lấy từ Chrome</button>
+              <button class="action-btn" id="btn-grab-gemini-edge" title="Tự động lấy cookie Gemini từ Edge"
+                style="height: 20px; padding: 0 6px; font-size: 10px; text-transform: none;"><i
+                  class="ri-edge-line"></i> Lấy từ Edge</button>
+              <button class="action-btn" id="btn-check-gemini-cookie"
+                style="height: 20px; padding: 0 6px; font-size: 10px; text-transform: none; background:#1d4ed8; color:#fff; border:none;"><i
+                  class="ri-pulse-line"></i> Check Live/Die</button>
+              <span id="gemini-cookie-status" style="font-size:11px; font-weight:bold; color:var(--text-muted)">Chưa
+                check</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-row mt8" style="justify-content: flex-end;">
+          <button class="action-btn" id="btn-save-settings"><i class="ri-save-3-line"></i> Lưu Cài Đặt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOG VIEWER MODAL -->
+  <div class="modal-overlay" id="log-modal">
+    <div class="modal-content" style="width:700px;max-height:80vh">
+      <div class="modal-header">
+        <h3><i class="ri-file-list-3-line"></i> Nhật ký công việc</h3>
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="action-btn" id="btn-log-refresh" style="height:20px;padding:1px 8px;font-size:9px"><i
+              class="ri-refresh-line"></i> Làm mới</button>
+          <button class="icon-btn close-modal"><i class="ri-close-line"></i></button>
+        </div>
+      </div>
+      <div class="modal-body"
+        style="padding:8px;overflow:hidden;display:flex;flex-direction:column;gap:6px;max-height:calc(80vh - 50px)">
+        <div class="panel-row">
+          <label class="field-label">ID Tác vụ:</label>
+          <input type="number" class="text-input" id="inp-log-filter" placeholder="Tất cả" style="width:80px" min="0" />
+          <label class="field-label">Cấp độ:</label>
+          <select class="select-input" id="sel-log-level" style="width:100px">
+            <option value="">Tất cả</option>
+            <option value="info">Thông tin</option>
+            <option value="error">Lỗi</option>
+            <option value="warn">Cảnh báo</option>
+          </select>
+          <button class="action-btn" id="btn-log-copy" style="height:20px;padding:1px 8px;font-size:9px"><i
+              class="ri-file-copy-line"></i> Sao chép</button>
+          <span class="field-label ml-auto" id="log-count">0 logs</span>
+        </div>
+        <div class="log-container" id="log-container">
+          <div class="log-placeholder">Chưa có logs. Hãy chạy công việc để ghi nhật ký ở đây.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSLATION RESULT MODAL -->
+  <div class="modal-overlay" id="trans-result-modal">
+    <div class="modal-content" style="width:650px;max-height:80vh">
+      <div class="modal-header">
+        <h3><i class="ri-translate-2"></i> Kết Quả Dịch</h3>
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="action-btn" id="btn-trans-copy" style="height:20px;padding:1px 8px;font-size:9px"><i
+              class="ri-file-copy-line"></i> Copy</button>
+          <button class="icon-btn close-modal"><i class="ri-close-line"></i></button>
+        </div>
+      </div>
+      <div class="modal-body"
+        style="padding:8px;overflow:hidden;display:flex;flex-direction:column;gap:6px;max-height:calc(80vh - 50px)">
+        <div class="panel-row">
+          <span class="field-label" id="trans-result-info">NLLB-200</span>
+          <button class="action-btn" id="btn-trans-download"
+            style="height:20px;padding:1px 8px;font-size:9px;margin-left:auto"><i class="ri-download-2-line"></i> Tải
+            SRT</button>
+        </div>
+        <textarea class="text-input" id="trans-result-text" readonly
+          style="width:100%;flex:1;min-height:200px;resize:vertical;font-family:var(--font-mono);font-size:11px"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERSION HISTORY MODAL -->
+  <div class="modal-overlay" id="version-modal">
+    <div class="modal-content" style="width:500px">
+      <div class="modal-header">
+        <h3><i class="ri-history-line"></i> Lịch sử phiên bản</h3>
+        <button class="icon-btn close-modal"><i class="ri-close-line"></i></button>
+      </div>
+      <div class="modal-body" style="max-height:300px;overflow-y:auto">
+        <div class="result-table-header" style="padding:3px 6px">
+          <span class="col-hdr" style="flex:1">Phiên bản</span>
+          <span class="col-hdr" style="flex:1">Ngày lưu</span>
+          <span class="col-hdr">Kích thước</span>
+          <span class="col-hdr" style="width:60px">Thao tác</span>
+        </div>
+        <div id="version-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE MANAGEMENT MODAL -->
+  <div class="modal-overlay" id="template-modal">
+    <div class="modal-content" style="width:600px;max-height:80vh">
+      <div class="modal-header">
+        <h3><i class="ri-layout-grid-line"></i> Quản lý Template <small id="template-count">0 mẫu sẵn</small></h3>
+        <button class="icon-btn close-modal"><i class="ri-close-line"></i></button>
+      </div>
+      <div class="modal-body"
+        style="padding:8px;overflow:hidden;display:flex;flex-direction:column;gap:6px;max-height:calc(80vh - 50px)">
+        <div class="panel-row">
+          <input type="text" class="text-input flex1" id="inp-template-name" placeholder="Tên template..."
+            style="height:22px;font-size:10px" />
+          <button class="action-btn" id="btn-template-save" style="height:22px;padding:1px 8px;font-size:9px"><i
+              class="ri-save-3-line"></i> Lưu</button>
+          <button class="action-btn" id="btn-template-refresh" style="height:22px;padding:1px 8px;font-size:9px"><i
+              class="ri-refresh-line"></i> Làm mới</button>
+        </div>
+        <div class="result-table-header" style="padding:3px 6px;font-size:9px">
+          <span class="col-hdr" style="flex:2">Tên</span>
+          <span class="col-hdr" style="flex:1">Mẫu</span>
+          <span class="col-hdr" style="width:60px">Độ phân giải</span>
+          <span class="col-hdr" style="width:40px">FPS</span>
+          <span class="col-hdr" style="width:100px">Thao tác</span>
+        </div>
+        <div id="template-list" style="flex:1;overflow-y:auto;min-height:100px">
+          <div class="log-placeholder">Chưa có template nào.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUBLISH HISTORY MODAL -->
+  <div class="modal-overlay" id="publish-history-modal">
+    <div class="modal-content" style="width:650px;max-height:80vh">
+      <div class="modal-header">
+        <h3><i class="ri-history-line"></i> Lịch sử Publish</h3>
+        <button class="icon-btn close-modal"><i class="ri-close-line"></i></button>
+      </div>
+      <div class="modal-body"
+        style="padding:8px;overflow:hidden;display:flex;flex-direction:column;gap:6px;max-height:calc(80vh - 50px)">
+        <div class="panel-row">
+          <button class="action-btn" id="btn-pub-history-refresh" style="height:22px;padding:1px 8px;font-size:9px"><i
+              class="ri-refresh-line"></i> Làm mới</button>
+          <span class="field-label ml-auto" id="pub-history-count">0 mục</span>
+        </div>
+        <div class="result-table-header" style="padding:3px 6px;font-size:9px">
+          <span class="col-hdr" style="flex:2">Tiêu đề</span>
+          <span class="col-hdr" style="flex:1">Nền tảng</span>
+          <span class="col-hdr" style="width:70px">Trạng thái</span>
+          <span class="col-hdr" style="width:120px">Ngày đăng</span>
+        </div>
+        <div id="publish-history-list" style="flex:1;overflow-y:auto;min-height:100px">
+          <div class="log-placeholder">Chưa có lịch sử publish.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXTRACT SUBTITLE MODAL -->
+  <div class="modal-overlay" id="extract-sub-modal">
+    <div class="modal-content" style="width:450px;">
+      <div class="modal-header">
+        <h3>Lấy Phụ Đề Từ Video</h3>
+        <button class="icon-btn close-modal"><i class="ri-close-line"></i></button>
+      </div>
+      <div class="modal-body" style="padding:12px; display:flex; flex-direction:column; gap:10px;">
+        <div id="sub-streams-section" style="display:none;">
+          <p style="margin-bottom:6px; font-weight:bold; color:var(--accent);">Phát hiện phụ đề mềm có sẵn trong video:
+          </p>
+          <div id="sub-streams-list"
+            style="display:flex; flex-direction:column; gap:6px; max-height:150px; overflow-y:auto; padding:6px; background:#1b2230; border-radius:4px; border:1px solid #2d3748;">
+            <!-- streams list dynamically populated -->
+          </div>
+          <button class="btn mt8" id="btn-extract-selected-stream"
+            style="width:100%; background:var(--accent); color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;">Trích
+            Xuất Track Đang Chọn</button>
+          <div style="text-align:center; margin:8px 0; color:#4a5568;">— HOẶC —</div>
+        </div>
+
+        <div>
+          <p style="margin-bottom:6px; font-weight:bold;">Tự động nhận dạng giọng nói (Speech-to-Text):</p>
+          <div class="tab-row" style="display:flex; align-items:center; gap:8px;">
+            <label class="field-label" style="width:120px">Ngôn ngữ nguồn:</label>
+            <select class="select-input" id="sel-stt-lang" style="flex:1">
+              <option value="vi">Tiếng Việt (vi)</option>
+              <option value="en">Tiếng Anh (en)</option>
+              <option value="zh">Tiếng Trung (zh)</option>
+              <option value="ja">Tiếng Nhật (ja)</option>
+              <option value="ko">Tiếng Hàn (ko)</option>
+            </select>
+          </div>
+          <label class="custom-checkbox" style="margin-top:8px;display:flex;align-items:center;gap:8px">
+            <input type="checkbox" id="chk-modal-whisperx" />
+            <span class="chk-box"></span>
+            <span class="field-label">WhisperX word alignment</span>
+          </label>
+          <button class="btn mt8" id="btn-run-whisper-stt"
+            style="width:100%; background:#2b6cb0; color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;">Nhận
+            Dạng Giọng Nói (Whisper STT)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" charset="UTF-8"></script>
+</body>
+
+</html>

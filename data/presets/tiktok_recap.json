@@ -1,0 +1,37 @@
+{
+  "name": "TikTok Recap",
+  "description": "TikTok dọc 9:16",
+  "voice": {
+    "provider": "edge",
+    "voice": "vi-VN-NamMinhNeural",
+    "speed": 1.1,
+    "keep_bgm": false,
+    "bgm_volume": 0.0
+  },
+  "subtitle": {
+    "font": "Roboto",
+    "size": 38,
+    "color": "#FFFFFF",
+    "stroke": 3,
+    "shadow": "hard",
+    "position": "center",
+    "burn": true
+  },
+  "export": {
+    "resolution": "1080x1920",
+    "fps": 30,
+    "codec": "h264",
+    "bitrate": "6M",
+    "audio_bitrate": "128k",
+    "format": "mp4",
+    "gpu": "cpu"
+  },
+  "enhance": {
+    "lut": "Warm Film",
+    "brightness": 52,
+    "contrast": 58,
+    "saturation": 65,
+    "vignette": 15,
+    "watermark": false
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Draft Fast",
+  "description": "Preview nhanh 720p, uu tien toc do",
+  "voice": {
+    "provider": "edge",
+    "voice": "vi-VN-NamMinhNeural",
+    "speed": 1.0,
+    "keep_bgm": true,
+    "bgm_volume": 0.1
+  },
+  "subtitle": {
+    "font": "Arial",
+    "size": 36,
+    "color": "#FFFFFF",
+    "stroke": 2,
+    "shadow": "soft",
+    "position": "bottom",
+    "burn": true
+  },
+  "export": {
+    "resolution": "1280x720",
+    "fps": 30,
+    "codec": "h264",
+    "bitrate": "auto",
+    "audio_bitrate": "128k",
+    "format": "mp4",
+    "gpu": "auto",
+    "preset": "veryfast",
+    "quality": "draft"
+  },
+  "enhance": {
+    "lut": "Cinematic",
+    "brightness": 50,
+    "contrast": 55,
+    "saturation": 60,
+    "vignette": 0,
+    "watermark": false
+  }
+}

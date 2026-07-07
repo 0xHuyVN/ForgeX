@@ -1,0 +1,83 @@
+# -*- mode: python ; coding: utf-8 -*-
+
+import sys
+sys.setrecursionlimit(5000)
+
+a = Analysis(
+    ['run_exe.py'],
+    pathex=[],
+    binaries=[],
+    datas=[
+        ('backend', 'backend'),
+        ('vendor/capcut-tts-api', 'vendor/capcut-tts-api'),
+        ('index.html', '.'),
+        ('style.css', '.'),
+        ('app.js', '.'),
+    ],
+    hiddenimports=[
+        'uvicorn.logging',
+        'uvicorn.loops',
+        'uvicorn.loops.auto',
+        'uvicorn.protocols.http',
+        'uvicorn.protocols.http.auto',
+        'edge_tts',
+        'edge_tts.util',
+        'yt_dlp',
+        'yt_dlp.extractor',
+        'yt_dlp.postprocessor',
+        'yt_dlp.utils',
+        'webview',
+        'webview.platforms',
+    ],
+    hookspath=[],
+    hooksconfig={},
+    excludes=[
+        'gradio', 'gradio_client', 'hf_gradio',
+        'spaces', 'omnivoice', 'voxcpm',
+        'tensorflow', 'tensorboardX',
+        'pandas',
+        'matplotlib',
+        'numba', 'llvmlite',
+        'PyQt6', 'PySide6', 'shiboken6', 'qtpy', 'QtAwesome',
+        'pyarrow',
+        'moviepy',
+        'pedalboard',
+        'flash_attn',
+        'modelscope',
+        'kagglehub', 'kagglesdk',
+        'lancedb',
+        'chromadb',
+        'playwright',
+        'watchfiles',
+        'lxml',
+        'Crypto', 'Cryptodome',
+        'brotli',
+        'secretstorage',
+        'curl_cffi',
+    ],
+    noarchive=False,
+)
+
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.datas,
+    [],
+    name='Tool_Review_Master_V2.1.1',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=False,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+    icon='app_icon.ico',
+)
