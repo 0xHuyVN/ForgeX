@@ -30,6 +30,7 @@ Toàn bộ chạy qua **giao diện web** mở trên trình duyệt, không cầ
 | **FFmpeg** | Bắt buộc. [Tải FFmpeg](https://www.gyan.dev/ffmpeg/builds/) → giải nén → thêm vào PATH |
 | **RAM** | Tối thiểu 8GB (khuyến nghị 16GB nếu dùng Whisper large) |
 | **GPU** | Không bắt buộc. Có GPU NVIDIA (CUDA) sẽ tăng tốc Whisper/TTS đáng kể |
+| **Ổ cứng** | Tối thiểu **5GB** trống để cài đặt (source ~1MB + thư viện Python ~4GB + Whisper model ~150MB). Khuyến nghị **10GB+** vì cần thêm dung lượng cho video tải về, file render, cache. Nếu dùng Whisper `large-v3` cần thêm ~3GB cho model |
 
 ---
 
